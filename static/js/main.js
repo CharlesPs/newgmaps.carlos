@@ -149,7 +149,6 @@ function initialize(){
 						}else{
 							comunidades_load();
 						}
-
 					});
 
 					$("#combo-capas .capa_rios").on("click", function(){
@@ -179,57 +178,13 @@ function initialize(){
 						$(".submenu").hide();
 
 						if(ecologico_array.length){
-							delete_ecologico();
+							if(showing_ecologico){
+								ecologico_hide();
+							}else{
+								ecologico_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/ecologico',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var poligono_coords = [];
-
-										var puntos = ret[index].points;
-										
-										$.each(puntos, function(index2, value2){
-
-											var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
-
-											poligono_coords.push(coordenadas);
-
-										});
-										
-										var poligono = new google.maps.Polygon({
-											paths: poligono_coords,
-											strokeColor: ret[index].color,
-											strokeOpacity: 1,
-											strokeWeight: 2,
-											fillColor: ret[index].color,
-											fillOpacity: 0.2
-										});
-
-										poligono.setMap(mapa);
-
-										// Add a listener for the click event
-										google.maps.event.addListener(poligono, 'click', function(){
-
-											var data = {
-												nombre : ret[index].nombre,
-												content : ret[index].content
-											};
-											show_info_panel(data);
-										});
-
-
-										ecologico_array.push(poligono);
-
-									});/**/
-
-									//alert(ret.length);
-								}
-							});
+							ecologico_load();
 						}
 					});
 
@@ -238,57 +193,13 @@ function initialize(){
 						$(".submenu").hide();
 
 						if(provincias_array.length){
-							delete_provincias();
+							if(showing_provincias){
+								provincias_hide();
+							}else{
+								provincias_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/provincias',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var poligono_coords = [];
-
-										var puntos = ret[index].points;
-										
-										$.each(puntos, function(index2, value2){
-
-											var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
-
-											poligono_coords.push(coordenadas);
-
-										});
-										
-										var poligono = new google.maps.Polygon({
-											paths: poligono_coords,
-											strokeColor: ret[index].color,
-											strokeOpacity: 1,
-											strokeWeight: 2,
-											fillColor: ret[index].color,
-											fillOpacity: 0.2
-										});
-
-										poligono.setMap(mapa);
-
-										// Add a listener for the click event
-										google.maps.event.addListener(poligono, 'click', function(){
-
-											var data = {
-												nombre : ret[index].nombre,
-												content : ret[index].content
-											};
-											show_info_panel(data);
-										});
-
-
-										provincias_array.push(poligono);
-
-									});/**/
-
-									//alert(ret.length);
-								}
-							});
+							provincias_load();
 						}
 					});
 
@@ -297,59 +208,13 @@ function initialize(){
 						$(".submenu").hide();
 
 						if(distritos_array.length){
-							delete_distritos();
+							if(showing_distritos){
+								distritos_hide();
+							}else{
+								distritos_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/distritos',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var poligono_coords = [];
-
-										var puntos = ret[index].points;
-										
-										$.each(puntos, function(index2, value2){
-
-											var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
-
-											poligono_coords.push(coordenadas);
-
-										});
-
-										var color = (ret[index].color.length == 6) ? "#" + ret[index].color : ret[index].color;
-										
-										var poligono = new google.maps.Polygon({
-											paths: poligono_coords,
-											strokeColor: color,
-											strokeOpacity: 1,
-											strokeWeight: 2,
-											fillColor: color,
-											fillOpacity: 0.2
-										});
-
-										poligono.setMap(mapa);
-
-										// Add a listener for the click event
-										google.maps.event.addListener(poligono, 'click', function(){
-
-											var data = {
-												nombre : ret[index].nombre,
-												content : ret[index].content
-											};
-											show_info_panel(data);
-										});
-
-
-										distritos_array.push(poligono);
-
-									});/**/
-
-									//alert(ret.length);
-								}
-							});
+							distritos_load();
 						}
 					});
 
@@ -406,45 +271,13 @@ function initialize(){
 						$(".submenu").hide();
 
 						if(hidrografia_array.length){
-							delete_hidrografia();
+							if(showing_hidrografia){
+								hidrografia_hide();
+							}else{
+								hidrografia_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/hidrografia',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var polilinea_coords = [];
-
-										var puntos = ret[index].points;
-										
-										$.each(puntos, function(index2, value2){
-
-											var latitude = value2[1] * 1;
-											var longitude = value2[0] * 1;
-
-											var coordenadas = new google.maps.LatLng(latitude, longitude);
-
-											polilinea_coords.push(coordenadas);
-
-										});
-										
-										var polilinea = new google.maps.Polyline({
-											path: polilinea_coords,
-											strokeColor: "#0000FF",
-											strokeOpacity: 1,
-											strokeWeight: 2
-										});
-
-										polilinea.setMap(mapa);
-
-										hidrografia_array.push(polilinea);
-
-									});
-								}
-							});
+							hidrografia_load();
 						}
 					});
 
@@ -452,46 +285,14 @@ function initialize(){
 						// oculta todos los submenus
 						$(".submenu").hide();
 
-						if(hidrografia_array.length){
-							delete_vias();
+						if(vias_array.length){
+							if(showing_vias){
+								vias_hide();
+							}else{
+								vias_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/vias',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var polilinea_coords = [];
-
-										var puntos = ret[index].coordinates;
-										
-										$.each(puntos, function(index2, value2){
-
-											var latitude = value2[1] * 1;
-											var longitude = value2[0] * 1;
-
-											var coordenadas = new google.maps.LatLng(latitude, longitude);
-
-											polilinea_coords.push(coordenadas);
-
-										});
-										
-										var polilinea = new google.maps.Polyline({
-											path: polilinea_coords,
-											strokeColor: "#F9DE2F",
-											strokeOpacity: 1,
-											strokeWeight: 2
-										});
-
-										polilinea.setMap(mapa);
-
-										vias_array.push(polilinea);
-
-									});
-								}
-							});
+							vias_load();
 						}
 					});
 				}
@@ -538,6 +339,10 @@ function addMarker(lat_lng, title) {
 	comunidades_array.push(marker);
 }
 
+/*
+Comunidades
+*/
+
 function comunidades_load(){
 	$.ajax({
 		url : 'capas/comunidades',
@@ -576,40 +381,339 @@ function comunidades_hide(){
 	showing_comunidades = false;
 }
 
-function delete_provincias(){
-  if (provincias_array) {
-    for (i in provincias_array) {
-      provincias_array[i].setMap(null);
+/*
+Provincias
+*/
+
+function provincias_load(){
+	$.ajax({
+		url : 'capas/provincias',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var poligono_coords = [];
+
+				var puntos = ret[index].points;
+				
+				$.each(puntos, function(index2, value2){
+
+					var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
+
+					poligono_coords.push(coordenadas);
+
+				});
+				
+				var poligono = new google.maps.Polygon({
+					paths: poligono_coords,
+					strokeColor: ret[index].color,
+					strokeOpacity: 1,
+					strokeWeight: 2,
+					fillColor: ret[index].color,
+					fillOpacity: 0.2
+				});
+
+				//poligono.setMap(mapa);
+
+				// Add a listener for the click event
+				google.maps.event.addListener(poligono, 'click', function(){
+
+					var data = {
+						nombre : ret[index].nombre,
+						content : ret[index].content
+					};
+					show_info_panel(data);
+				});
+
+				provincias_array.push(poligono);
+			});
+			provincias_show();
+		}
+	});
+}
+
+function provincias_show(){
+	if (provincias_array) {
+		for (i in provincias_array) {
+			provincias_array[i].setMap(mapa);
+		}
+	}
+	showing_provincias = true;
+}
+
+function provincias_hide(){
+	if (provincias_array) {
+		for (i in provincias_array) {
+			provincias_array[i].setMap(null);
+		}
+	}
+	showing_provincias = false;
+}
+
+/*
+Distritos
+*/
+
+function distritos_load(){
+	$.ajax({
+		url : 'capas/distritos',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var poligono_coords = [];
+
+				var puntos = ret[index].points;
+				
+				$.each(puntos, function(index2, value2){
+
+					var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
+
+					poligono_coords.push(coordenadas);
+
+				});
+
+				var color = (ret[index].color.length == 6) ? "#" + ret[index].color : ret[index].color;
+				
+				var poligono = new google.maps.Polygon({
+					paths: poligono_coords,
+					strokeColor: color,
+					strokeOpacity: 1,
+					strokeWeight: 2,
+					fillColor: color,
+					fillOpacity: 0.2
+				});
+
+				google.maps.event.addListener(poligono, 'click', function(){
+
+					var data = {
+						nombre : ret[index].nombre,
+						content : ret[index].content
+					};
+					show_info_panel(data);
+				});
+
+				distritos_array.push(poligono);
+			});
+			distritos_show();
+		}
+	});
+}
+
+function distritos_show(){
+	if (distritos_array) {
+		for (i in distritos_array) {
+			distritos_array[i].setMap(mapa);
+		}
+	}
+	showing_distritos = true;
+}
+
+function distritos_hide(){
+	if (distritos_array) {
+		for (i in distritos_array) {
+			distritos_array[i].setMap(null);
+		}
+	}
+	showing_distritos = false;
+}
+
+/*
+Vias
+*/
+
+function vias_load(){
+	$.ajax({
+		url : 'capas/vias',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var polilinea_coords = [];
+
+				var puntos = ret[index].coordinates;
+				
+				$.each(puntos, function(index2, value2){
+
+					var latitude = value2[1] * 1;
+					var longitude = value2[0] * 1;
+
+					var coordenadas = new google.maps.LatLng(latitude, longitude);
+
+					polilinea_coords.push(coordenadas);
+
+				});
+				
+				var polilinea = new google.maps.Polyline({
+					path: polilinea_coords,
+					strokeColor: "#F9DE2F",
+					strokeOpacity: 1,
+					strokeWeight: 2
+				});
+
+				vias_array.push(polilinea);
+			});
+			vias_show();
+		}
+	});
+}
+
+function vias_show(){
+	if (vias_array) {
+		for (i in vias_array) {
+			vias_array[i].setMap(mapa);
+		}
+	}
+	showing_vias = true;
+}
+
+function vias_hide(){
+	if (vias_array) {
+		for (i in vias_array) {
+			vias_array[i].setMap(null);
+		}
+	}
+	showing_vias = false;
+}
+
+/*
+Hidrografia
+*/
+
+function hidrografia_load(){
+	$.ajax({
+		url : 'capas/hidrografia',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var polilinea_coords = [];
+
+				var puntos = ret[index].points;
+				
+				$.each(puntos, function(index2, value2){
+
+					var latitude = value2[1] * 1;
+					var longitude = value2[0] * 1;
+
+					var coordenadas = new google.maps.LatLng(latitude, longitude);
+
+					polilinea_coords.push(coordenadas);
+
+				});
+				
+				var polilinea = new google.maps.Polyline({
+					path: polilinea_coords,
+					strokeColor: "#0000FF",
+					strokeOpacity: 1,
+					strokeWeight: 2
+				});
+
+				hidrografia_array.push(polilinea);
+
+			});
+			hidrografia_show();
+		}
+	});
+}
+
+function hidrografia_show(){
+	if (hidrografia_array) {
+		for (i in hidrografia_array) {
+			hidrografia_array[i].setMap(mapa);
+		}
+	}
+	showing_hidrografia = true;
+}
+
+function hidrografia_hide(){
+	if (hidrografia_array) {
+		for (i in hidrografia_array) {
+			hidrografia_array[i].setMap(null);
+		}
+	}
+	showing_hidrografia = false;
+}
+
+function delete_ecologico(){
+  if (ecologico_array) {
+    for (i in ecologico_array) {
+      ecologico_array[i].setMap(null);
     }
-    provincias_array.length = 0;
+    ecologico_array.length = 0;
   }
 }
 
-function delete_distritos(){
-  if (distritos_array) {
-    for (i in distritos_array) {
-      distritos_array[i].setMap(null);
-    }
-    distritos_array.length = 0;
-  }
+/*
+Ecologico
+*/
+
+function ecologico_load(){
+	$.ajax({
+		url : 'capas/ecologico',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var poligono_coords = [];
+
+				var puntos = ret[index].points;
+				
+				$.each(puntos, function(index2, value2){
+
+					var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
+
+					poligono_coords.push(coordenadas);
+				});
+				
+				var poligono = new google.maps.Polygon({
+					paths: poligono_coords,
+					strokeColor: ret[index].color,
+					strokeOpacity: 1,
+					strokeWeight: 2,
+					fillColor: ret[index].color,
+					fillOpacity: 0.2
+				});
+
+				// Add a listener for the click event
+				google.maps.event.addListener(poligono, 'click', function(){
+
+					var data = {
+						nombre : ret[index].nombre,
+						content : ret[index].content
+					};
+					show_info_panel(data);
+				});
+
+				ecologico_array.push(poligono);
+			});
+
+			ecologico_show();
+		}
+	});
 }
 
-function delete_hidrografia(){
-  if (hidrografia_array) {
-    for (i in hidrografia_array) {
-      hidrografia_array[i].setMap(null);
-    }
-    hidrografia_array.length = 0;
-  }
+function ecologico_show(){
+	if (ecologico_array) {
+		for (i in ecologico_array) {
+			ecologico_array[i].setMap(mapa);
+		}
+	}
+	showing_ecologico = true;
 }
 
-function delete_vias(){
-  if (vias_array) {
-    for (i in vias_array) {
-      vias_array[i].setMap(null);
-    }
-    vias_array.length = 0;
-  }
+function ecologico_hide(){
+	if (ecologico_array) {
+		for (i in ecologico_array) {
+			ecologico_array[i].setMap(null);
+		}
+	}
+	showing_ecologico = false;
 }
 
 function delete_ecologico(){
