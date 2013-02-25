@@ -24,6 +24,8 @@ var vias_array = [];
 var ecologico_array = [];
 var bosques_01_array = [];
 
+var loading_active = false;
+
 var showing_comunidades = false;
 var capa_comunidades;
 
@@ -55,7 +57,7 @@ function init_gmaps(){
 	
 	resize_frame();
 
-	$(window).on("resize", resize_frame)
+	$(window).on("resize", resize_frame);
 }
 
 function initialize(){
@@ -117,7 +119,7 @@ function initialize(){
 
 	var combo_capas = new addControl({
 	  	id: "combo-capas",
-	  	content: 'Capas',
+	  	content: '<img class="loading-image" src="static/img/animated_loading.gif" width="16" height="16" alt="loading" />Capas',
 	  	title: "Seleccionar las capas que desea inspeccionar",
 	  	position: "top_left",
 	  	clases: "control-combo combo_capas control",
@@ -149,28 +151,6 @@ function initialize(){
 						}else{
 							comunidades_load();
 						}
-					});
-
-					$("#combo-capas .capa_rios").on("click", function(){
-						// oculta todos los submenus
-						$(".submenu").hide();
-
-						if(!showing_rios){
-
-							var imageBounds = new google.maps.LatLngBounds(
-							    new google.maps.LatLng(-7.172, -80.60),
-							    new google.maps.LatLng(-5.51, -79.133)
-						    );
-
-						    capa_rios = new google.maps.GroundOverlay("static/img/capas/c-rios.png",imageBounds);
-
-						    capa_rios.setMap(mapa);
-						    showing_rios = true;
-						}else{
-						    capa_rios.setMap(null);
-						    showing_rios = false;
-						}
-
 					});
 
 					$("#combo-capas .capa_mapa_ecologico").on("click", function(){
@@ -218,54 +198,6 @@ function initialize(){
 						}
 					});
 
-					$("#combo-capas .capa_mapa_forestal_01").on("click", function(){
-						// oculta todos los submenus
-						$(".submenu").hide();
-
-						if(bosques_01_array.length){
-							delete_bosques();
-						}else{
-							// 
-							$.ajax({
-								url : 'capas/bosques',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, value){
-
-										var poligono_coords = [];
-
-										var puntos = ret[index].points;
-										
-										$.each(puntos, function(index2, value2){
-
-											var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
-
-											poligono_coords.push(coordenadas);
-
-										});
-										
-										var poligono = new google.maps.Polygon({
-											paths: poligono_coords,
-											strokeColor: ret[index].color,
-											strokeOpacity: 0.8,
-											strokeWeight: 2,
-											fillColor: ret[index].color,
-											fillOpacity: 0.35
-										});
-
-										poligono.setMap(mapa);
-
-										bosques_01_array.push(poligono);
-
-									});/**/
-
-									//alert(ret.length);
-								}
-							});
-						}
-					});
-
 					$("#combo-capas .capa_hidrografia").on("click", function(){
 						// oculta todos los submenus
 						$(".submenu").hide();
@@ -302,6 +234,9 @@ function initialize(){
 	});
 }
 
+/*
+UI - functions
+*/
 
 function resize_frame(){
 
@@ -339,11 +274,33 @@ function addMarker(lat_lng, title) {
 	comunidades_array.push(marker);
 }
 
+function show_info_panel(data){
+	$("#info_panel").find(".panel_title").html(data.nombre);
+	$("#info_panel").find(".panel_content").html(data.content);
+
+	$("#info_panel").show();
+
+	$("#info_panel").find(".panel_close").live("click", hide_info_panel)
+}
+
+function hide_info_panel(){
+	$("#info_panel").find(".panel_close").on("click", function(){
+		$("#info_panel .panel_title").html("");
+		$("#info_panel .panel_content").html("");
+
+		$("#info_panel").hide();
+	});
+}
+
 /*
 Comunidades
 */
 
 function comunidades_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/comunidades',
 		dataType : 'json',
@@ -359,6 +316,7 @@ function comunidades_load(){
 				comunidades_array.push(marker);
 			});
 			comunidades_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -386,6 +344,10 @@ Provincias
 */
 
 function provincias_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/provincias',
 		dataType : 'json',
@@ -429,6 +391,7 @@ function provincias_load(){
 				provincias_array.push(poligono);
 			});
 			provincias_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -456,6 +419,10 @@ Distritos
 */
 
 function distritos_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/distritos',
 		dataType : 'json',
@@ -498,6 +465,7 @@ function distritos_load(){
 				distritos_array.push(poligono);
 			});
 			distritos_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -525,6 +493,10 @@ Vias
 */
 
 function vias_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/vias',
 		dataType : 'json',
@@ -557,6 +529,7 @@ function vias_load(){
 				vias_array.push(polilinea);
 			});
 			vias_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -584,6 +557,10 @@ Hidrografia
 */
 
 function hidrografia_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/hidrografia',
 		dataType : 'json',
@@ -617,6 +594,7 @@ function hidrografia_load(){
 
 			});
 			hidrografia_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -653,6 +631,10 @@ Ecologico
 */
 
 function ecologico_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
 	$.ajax({
 		url : 'capas/ecologico',
 		dataType : 'json',
@@ -694,6 +676,7 @@ function ecologico_load(){
 			});
 
 			ecologico_show();
+			$(".loading-image").fadeOut();
 		}
 	});
 }
@@ -723,31 +706,4 @@ function delete_ecologico(){
     }
     ecologico_array.length = 0;
   }
-}
-
-function delete_bosques(index){
-  if (bosques_01_array) {
-    for (i in bosques_01_array) {
-      bosques_01_array[i].setMap(null);
-    }
-    bosques_01_array.length = 0;
-  }
-}
-
-function show_info_panel(data){
-	$("#info_panel").find(".panel_title").html(data.nombre);
-	$("#info_panel").find(".panel_content").html(data.content);
-
-	$("#info_panel").show();
-
-	$("#info_panel").find(".panel_close").live("click", hide_info_panel)
-}
-
-function hide_info_panel(){
-	$("#info_panel").find(".panel_close").on("click", function(){
-		$("#info_panel .panel_title").html("");
-		$("#info_panel .panel_content").html("");
-
-		$("#info_panel").hide();
-	});
 }

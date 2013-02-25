@@ -70,6 +70,10 @@ body {
     margin-bottom: 10px;
     padding: 5px;
 }
+.loading-image {
+    display: none;
+    margin-right: 5px;
+}
 
 .info_panel {
     background-color: #FFFFFF;
