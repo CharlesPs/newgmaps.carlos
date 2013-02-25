@@ -24,6 +24,9 @@ var vias_array = [];
 var ecologico_array = [];
 var bosques_01_array = [];
 
+var showing_comunidades = false;
+var capa_comunidades;
+
 var showing_rios = false;
 var capa_rios;
 
@@ -138,21 +141,13 @@ function initialize(){
 						$(".submenu").hide();
 
 						if(comunidades_array.length){
-							deleteMarkers();
+							if(showing_comunidades){
+								comunidades_hide();
+							}else{
+								comunidades_show();
+							}
 						}else{
-							// 
-							$.ajax({
-								url : 'capas/comunidades',
-								dataType : 'json',
-								error : function(){},
-								success : function(ret){
-									$.each(ret, function(index, coord){
-
-										var new_lat_lng = new google.maps.LatLng(coord.lat, coord.lng);
-											addMarker(new_lat_lng);
-									});
-								}
-							});
+							comunidades_load();
 						}
 
 					});
@@ -536,20 +531,49 @@ function addControl(options, map) {
 }
 
 function addMarker(lat_lng, title) {
-  marker = new google.maps.Marker({
-    position: lat_lng,
-    map: mapa
-  });
-  comunidades_array.push(marker);
+	marker = new google.maps.Marker({
+		position: lat_lng,
+		map: mapa
+	});
+	comunidades_array.push(marker);
 }
 
-function deleteMarkers(){
-  if (comunidades_array) {
-    for (i in comunidades_array) {
-      comunidades_array[i].setMap(null);
-    }
-    comunidades_array.length = 0;
-  }
+function comunidades_load(){
+	$.ajax({
+		url : 'capas/comunidades',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, coord){
+
+				var lat_lng = new google.maps.LatLng(coord.lat, coord.lng);
+				var marker = new google.maps.Marker({
+					position: lat_lng,
+					map: null
+				});
+				comunidades_array.push(marker);
+			});
+			comunidades_show();
+		}
+	});
+}
+
+function comunidades_show(){
+	if (comunidades_array) {
+		for (i in comunidades_array) {
+			comunidades_array[i].setMap(mapa);
+		}
+	}
+	showing_comunidades = true;
+}
+
+function comunidades_hide(){
+	if (comunidades_array) {
+		for (i in comunidades_array) {
+			comunidades_array[i].setMap(null);
+		}
+	}
+	showing_comunidades = false;
 }
 
 function delete_provincias(){
