@@ -75,6 +75,30 @@ body {
     margin-right: 5px;
 }
 
+.bottom-container {
+    color: #000;
+    font-family: Arial,sans-serif;
+    font-size: 13px;
+    margin: 5px 5px 22px;
+}
+.bottom-button {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(113, 123, 135);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 0 0 5px;
+    padding: 1px 6px;
+}
+.bottom-button span {
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: -1px;
+}
+.bottom-button img {
+    margin: 0 -2px 1px 0;
+}
+
 .info_panel {
     background-color: #FFFFFF;
     border: 1px solid #717B87;

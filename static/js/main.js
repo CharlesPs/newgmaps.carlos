@@ -87,23 +87,32 @@ function initialize(){
 	}
   }, mapa);
 
-  var minimapa = new addControl({
-  	id: "minimapa",
-  	content: '<img src="static/img/minimapa.png" width="172" height="232" />',
-  	title: "Mini Mapa",
-  	position: "left_bottom",
-  	clases: "minimapa",
-  	on_click: function() {}
-  }, mapa);
+var minimapa = new addControl({
+	id: "minimapa",
+	content: '<img src="static/img/minimapa.png" width="172" height="232" />',
+	title: "Mini Mapa",
+	position: "left_bottom",
+	clases: "minimapa",
+	on_click: function() {}
+}, mapa);
 
-  var info_panel = new addControl({
-  	id: "info_panel",
-  	content: '<div class="panel_close"></div><h1 class="panel_title">Title</h1><div class="panel_content">Content</div>',
-  	title: "",
-  	position: "right_top",
-  	clases: "info_panel panel",
-  	on_click: function() {}
-  }, mapa);
+	var info_panel = new addControl({
+		id: "info_panel",
+		content: '<div class="panel_close"></div><h1 class="panel_title">Title</h1><div class="panel_content">Content</div>',
+		title: "",
+		position: "right_top",
+		clases: "info_panel panel",
+		on_click: function() {}
+	}, mapa);
+
+	/*ecologico_btn_create();
+	comunidades_btn_create();
+	provincias_btn_create();
+	distritos_btn_create();
+	vias_btn_create();
+	hidrografia_btn_create();*/
+
+	create_bottom_buttons_container();
 
 	// Menu Capas
 	var lista_combo_capas = $('<div id="lista_combo_capas" class="lista_combo lista_combo_capas"></div>');
@@ -292,6 +301,17 @@ function hide_info_panel(){
 	});
 }
 
+function create_bottom_buttons_container(){
+  var comunidadesBtn = new addControl({
+  	id: "bottom_buttons_container",
+  	content: '',
+  	title: "",
+  	position: "bottom_left",
+  	clases: "bottom-container",
+  	on_click: function() {}
+  }, mapa);
+}
+
 /*
 Comunidades
 */
@@ -327,6 +347,7 @@ function comunidades_show(){
 			comunidades_array[i].setMap(mapa);
 		}
 	}
+	comunidades_btn_create();
 	showing_comunidades = true;
 }
 
@@ -336,7 +357,25 @@ function comunidades_hide(){
 			comunidades_array[i].setMap(null);
 		}
 	}
+	comunidades_btn_delete();
 	showing_comunidades = false;
+}
+
+function comunidades_btn_create(){
+	var hide_comunidades = $('<div id="hide-comunidades"></div>');
+	hide_comunidades.addClass("bottom-button");
+	hide_comunidades.html('<span>Comunidades</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_comunidades.on("click", function(){
+	    comunidades_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_comunidades);
+}
+
+function comunidades_btn_delete(){
+	$("#hide-comunidades").fadeOut();
+	$("#hide-comunidades").remove();
 }
 
 /*
@@ -402,6 +441,7 @@ function provincias_show(){
 			provincias_array[i].setMap(mapa);
 		}
 	}
+	provincias_btn_create();
 	showing_provincias = true;
 }
 
@@ -411,7 +451,25 @@ function provincias_hide(){
 			provincias_array[i].setMap(null);
 		}
 	}
+	provincias_btn_delete();
 	showing_provincias = false;
+}
+
+function provincias_btn_create(){
+	var hide_provincias = $('<div id="hide-provincias"></div>');
+	hide_provincias.addClass("bottom-button");
+	hide_provincias.html('<span>Provincias</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_provincias.on("click", function(){
+	    provincias_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_provincias);
+}
+
+function provincias_btn_delete(){
+	$("#hide-provincias").fadeOut();
+	$("#hide-provincias").remove();
 }
 
 /*
@@ -476,6 +534,7 @@ function distritos_show(){
 			distritos_array[i].setMap(mapa);
 		}
 	}
+	distritos_btn_create();
 	showing_distritos = true;
 }
 
@@ -485,7 +544,25 @@ function distritos_hide(){
 			distritos_array[i].setMap(null);
 		}
 	}
+	distritos_btn_delete();
 	showing_distritos = false;
+}
+
+function distritos_btn_create(){
+	var hide_distritos = $('<div id="hide-distritos"></div>');
+	hide_distritos.addClass("bottom-button");
+	hide_distritos.html('<span>Distritos</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_distritos.on("click", function(){
+	    distritos_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_distritos);
+}
+
+function distritos_btn_delete(){
+	$("#hide-distritos").fadeOut();
+	$("#hide-distritos").remove();
 }
 
 /*
@@ -540,6 +617,7 @@ function vias_show(){
 			vias_array[i].setMap(mapa);
 		}
 	}
+	vias_btn_create();
 	showing_vias = true;
 }
 
@@ -549,7 +627,25 @@ function vias_hide(){
 			vias_array[i].setMap(null);
 		}
 	}
+	vias_btn_delete();
 	showing_vias = false;
+}
+
+function vias_btn_create(){
+	var hide_vias = $('<div id="hide-vias"></div>');
+	hide_vias.addClass("bottom-button");
+	hide_vias.html('<span>Vías</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_vias.on("click", function(){
+	    vias_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_vias);
+}
+
+function vias_btn_delete(){
+	$("#hide-vias").fadeOut();
+	$("#hide-vias").remove();
 }
 
 /*
@@ -605,6 +701,7 @@ function hidrografia_show(){
 			hidrografia_array[i].setMap(mapa);
 		}
 	}
+	hidrografia_btn_create();
 	showing_hidrografia = true;
 }
 
@@ -614,16 +711,25 @@ function hidrografia_hide(){
 			hidrografia_array[i].setMap(null);
 		}
 	}
+	hidrografia_btn_delete();
 	showing_hidrografia = false;
 }
 
-function delete_ecologico(){
-  if (ecologico_array) {
-    for (i in ecologico_array) {
-      ecologico_array[i].setMap(null);
-    }
-    ecologico_array.length = 0;
-  }
+function hidrografia_btn_create(){
+	var hide_hidrografia = $('<div id="hide-hidrografia"></div>');
+	hide_hidrografia.addClass("bottom-button");
+	hide_hidrografia.html('<span>Hidrografía</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_hidrografia.on("click", function(){
+	    hidrografia_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_hidrografia);
+}
+
+function hidrografia_btn_delete(){
+	$("#hide-hidrografia").fadeOut();
+	$("#hide-hidrografia").remove();
 }
 
 /*
@@ -687,6 +793,7 @@ function ecologico_show(){
 			ecologico_array[i].setMap(mapa);
 		}
 	}
+	ecologico_btn_create();
 	showing_ecologico = true;
 }
 
@@ -696,14 +803,23 @@ function ecologico_hide(){
 			ecologico_array[i].setMap(null);
 		}
 	}
+	ecologico_btn_delete();
 	showing_ecologico = false;
 }
 
-function delete_ecologico(){
-  if (ecologico_array) {
-    for (i in ecologico_array) {
-      ecologico_array[i].setMap(null);
-    }
-    ecologico_array.length = 0;
-  }
+function ecologico_btn_create(){
+	var hide_ecologico = $('<div id="hide-ecologico"></div>');
+	hide_ecologico.addClass("bottom-button");
+	hide_ecologico.html('<span>Mapa Ecológico</span><img src="static/img/bottom_close.png" width="16" height="16" alt="" />');
+
+	hide_ecologico.on("click", function(){
+	    ecologico_hide();
+	});
+
+	$("#bottom_buttons_container").append(hide_ecologico);
+}
+
+function ecologico_btn_delete(){
+	$("#hide-ecologico").fadeOut();
+	$("#hide-ecologico").remove();
 }
