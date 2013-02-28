@@ -4,5 +4,8 @@ $route['default_controller'] = "home";
 $route['404_override'] = '';
 
 
+$route['admin'] 				= "admin_home";
+$route['admin/home'] 			= "admin_home";
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
