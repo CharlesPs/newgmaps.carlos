@@ -82,7 +82,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('m_control', 'm_object');
 
 
 /* End of file autoload.php */
