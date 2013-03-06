@@ -105,12 +105,8 @@ var minimapa = new addControl({
 		on_click: function() {}
 	}, mapa);
 
-	/*ecologico_btn_create();
-	comunidades_btn_create();
-	provincias_btn_create();
-	distritos_btn_create();
-	vias_btn_create();
-	hidrografia_btn_create();*/
+	var georssLayer = new google.maps.KmlLayer('http://mapas.apfeldor.com/static/kml/perimetro-lambayeque.kml');
+	georssLayer.setMap(mapa);
 
 	create_bottom_buttons_container();
 
@@ -241,6 +237,7 @@ var minimapa = new addControl({
 				lista_combo_capas.toggle();
 	  	}
 	});
+
 }
 
 /*
@@ -249,8 +246,11 @@ UI - functions
 
 function resize_frame(){
 
-	var window_w = $(window).width();
-	var window_h = $(window).height();
+	/*var window_w = $(window).width();
+	var window_h = $(window).height();*/
+
+	var window_w = "841mm";
+	var window_h = "594mm";
 
 	$(gmaps_frame_name).css("width", window_w);
 	$(gmaps_frame_name).css("height", window_h);
