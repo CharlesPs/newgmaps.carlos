@@ -23,7 +23,7 @@ class Capas extends CI_Controller {
 	public function hidrografia(){
 		$this->load->model("m_hidrografia");
 
-		echo json_encode($this->m_hidrografia->get_hidrografia_test());
+		/*echo */json_encode($this->m_hidrografia->get_hidrografia_test());
 	}
 
 	public function vias(){

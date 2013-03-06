@@ -617,16 +617,21 @@ function hidrografia_load(){
 		dataType : 'json',
 		error : function(){},
 		success : function(ret){
-			$.each(ret, function(index, value){
+
+			console.log(ret);
+
+			/*$.each(ret, function(index, value){
 
 				var polilinea_coords = [];
 
 				var puntos = ret[index].points;
-				
+
 				$.each(puntos, function(index2, value2){
 
-					var latitude = value2[1] * 1;
-					var longitude = value2[0] * 1;
+					var latitude = value2[1];
+					var longitude = value2[0];
+
+					//console.log(latitude + " : " + longitude);
 
 					var coordenadas = new google.maps.LatLng(latitude, longitude);
 
@@ -642,10 +647,9 @@ function hidrografia_load(){
 				});
 
 				hidrografia_array.push(polilinea);
-
 			});
 			hidrografia_show();
-			$(".loading-image").fadeOut();
+			$(".loading-image").fadeOut();*/
 		}
 	});
 }

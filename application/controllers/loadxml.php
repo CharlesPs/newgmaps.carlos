@@ -367,7 +367,7 @@ class Loadxml extends CI_Controller {
 		$tabla_polilineas_test = "wc_hidrografia_polilineas_test";
 		$tabla_poligonos = "wc_hidrografia_polilineas";
 		$tabla_coordenadas = "wc_hidrografia_coordenadas";
-		$kml_file = "hidrografia";
+		$kml_file = "riosf";
 
 		$kml_data = simplexml_load_file('static/kml/'.$kml_file.'.kml');
 

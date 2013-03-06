@@ -13,6 +13,11 @@ function ajax_login(e){
 	data.save = ($("#admin-save").is(':checked')) ? 1 : 0;
 
 	$.ajax({
-		url : 'admin/login'
+		url : 'admin/control/login',
+		data : data,
+		type : 'post',
+		success : function(ret){
+			
+		}
 	});
 }

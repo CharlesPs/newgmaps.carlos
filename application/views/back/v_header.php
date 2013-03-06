@@ -27,7 +27,13 @@
                             </li>
                         </ul>
                         <p class="navbar-text pull-right">
-                            Logueado como <a class="navbar-link" href="#"><?php echo $this->m_control->nombre; ?></a>
+                            Logueado como 
+                            <a class="navbar-link" href="#">
+                                <?php echo $this->m_control->nombre; ?>
+                                <i class="icon-chevron-down icon-white"></i>
+                            </a>
+                             - 
+                            <a href="">Salir</a>
                         </p>
                     </div><!--/.nav-collapse -->
                 </div>
