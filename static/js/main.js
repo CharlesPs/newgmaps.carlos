@@ -246,11 +246,11 @@ UI - functions
 
 function resize_frame(){
 
-	/*var window_w = $(window).width();
-	var window_h = $(window).height();*/
+	var window_w = $(window).width();
+	var window_h = $(window).height();
 
-	var window_w = "841mm";
-	var window_h = "594mm";
+	/*var window_w = "841mm";
+	var window_h = "594mm";*/
 
 	$(gmaps_frame_name).css("width", window_w);
 	$(gmaps_frame_name).css("height", window_h);

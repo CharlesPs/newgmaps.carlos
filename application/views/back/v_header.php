@@ -33,7 +33,7 @@
                                 <i class="icon-chevron-down icon-white"></i>
                             </a>
                              - 
-                            <a href="">Salir</a>
+                            <a href="admin/control/logout">Salir</a>
                         </p>
                     </div><!--/.nav-collapse -->
                 </div>

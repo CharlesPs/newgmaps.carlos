@@ -17,7 +17,9 @@ function ajax_login(e){
 		data : data,
 		type : 'post',
 		success : function(ret){
-			
+			if(ret == "1"){
+				$(location).attr("href", "admin");
+			}
 		}
 	});
 }

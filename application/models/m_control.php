@@ -96,6 +96,10 @@ class M_control extends CI_Model{
 		
 		return true;
 	}
+
+	public function wc_logout(){
+		return $this->set_session_cookie(0, "wc", $guardar);
+	}
 	
 	public function set_session_cookie($action, $type, $save = true){
 		
