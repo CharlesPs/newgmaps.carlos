@@ -6,9 +6,10 @@ class M_admin_provincias extends CI_Model {
         parent::__construct();
     }
 
-    function get_result(){
+    function get_result($offset = 0){
         $query = $this->db->select("*")
                             ->from("wc_provincias")
+                            ->limit(20, $offset)
                             ->get();
 
         return $query->result();
@@ -21,6 +22,14 @@ class M_admin_provincias extends CI_Model {
                             ->get();
 
         return $query->row();
+    }
+
+    function get_total_rows(){
+        $query = $this->db->select("*")
+                            ->from("wc_provincias")
+                            ->get();
+
+        return $query->num_rows();
     }
 
 }

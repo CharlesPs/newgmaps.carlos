@@ -33,7 +33,22 @@ class Admin_provincias extends CI_Controller {
 
 		$this->load->model($this->main_model_name, "main_model");
 
-		$output["result"] = $this->main_model->get_result();
+		$offset = $this->uri->segment(3);
+
+		$output["result"] = $this->main_model->get_result($offset);
+
+		//***************************************************
+		$this->load->model("m_paginator");
+
+		$data = new M_object();
+
+		$data->uri_segment 	= 3;
+		$data->base_url 	= base_url()."admin/provincias/";
+		$data->total_rows 	= $this->main_model->get_total_rows();
+		$data->per_page 	= 20;
+
+		$output["paginator"] = $this->m_paginator->create($data);
+		//***************************************************
 
 		$output["web_content"] .= $this->load->view("back/v_header", $output, true);
 		$output["web_content"] .= $this->load->view("back/v_provincias", $output, true);

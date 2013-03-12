@@ -13,6 +13,10 @@
                         <li class="active">Provincias</li>
                     </ul>
 
+                    <div class="pagination">
+                        <?php echo $paginator; ?>
+                    </div>
+
                     <div class="row-fluid">
                             <table class="table table-striped table-bordered">
                                 <thead>

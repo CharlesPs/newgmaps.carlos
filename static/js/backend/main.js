@@ -92,17 +92,26 @@ function setup_row_activable(){
 
 		var val = $(".button-activable").find('input[type="hidden"]').val();
 
-		if(val){
-
-		}else{
-
-		}
-
-		$(this).find(".row-activable").toggleClass("icon-ok");
-		$(this).find(".row-activable").toggleClass("icon-remove");
+		toogle_active_value($(this), val);
 	})
 
 	if(active){
-		$(".button-activable").trigger("click");
+
+		toggle_active_class($(".button-activable"));
 	}
+}
+
+function toggle_active_class(domObj){
+
+		domObj.find(".row-activable").toggleClass("icon-ok");
+		domObj.find(".row-activable").toggleClass("icon-remove");
+}
+
+function toogle_active_value(domObj, val){
+
+	var new_val = (val == 1) ? 0 : 1;
+
+	domObj.find('input[type="hidden"]').val(new_val);
+
+	toggle_active_class(domObj);
 }

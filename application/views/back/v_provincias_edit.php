@@ -26,23 +26,20 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputEmail">Email</label>
+                                <label class="control-label" for="nombre">Nombre</label>
                                 <div class="controls">
-                                    <input type="text" id="inputEmail" placeholder="Email">
+                                    <input type="text" id="nombre" class="span5">
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputPassword">Password</label>
+                                <label class="control-label" for="color">Color</label>
                                 <div class="controls">
-                                    <input type="password" id="inputPassword" placeholder="Password">
+                                    <input type="text" id="color" class="span2">
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <label class="checkbox">
-                                        <input type="checkbox"> Remember me
-                                    </label>
-                                    <button type="submit" class="btn">Sign in</button>
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
                                 </div>
                             </div>
                         </form>
