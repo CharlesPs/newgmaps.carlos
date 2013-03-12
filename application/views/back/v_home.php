@@ -2,38 +2,7 @@
         <div class="container-fluid">
 
             <div class="row-fluid">
-                <div class="span3 column-sidebar">
-                    <div class="well sidebar-nav">
-                        <button class="btn-block toggle-sidebar btn-inverse">
-                            <span class="on-span1">
-                                <i class="icon-chevron-right icon-white"></i>
-                                <i class="icon-chevron-right icon-white"></i>
-                            </span>
-                            <span class="on-span3">
-                                <i class="icon-chevron-left icon-white"></i>
-                                <i class="icon-chevron-left icon-white"></i>
-                            </span>
-                        </button>
-                        <ul class="nav nav-list">
-                            <li class="nav-header">Sidebar</li>
-                            <li class="active"><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li class="nav-header">Sidebar</li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li class="nav-header">Sidebar</li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
-                        </ul>
-                    </div><!--/.well -->
-                </div><!--/span-->
+                <?php echo $web_leftbar; ?>
                 
                 <div class="span9 column-hero">
                     <!-- Main hero unit for a primary marketing message or call to action -->

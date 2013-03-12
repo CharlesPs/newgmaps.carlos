@@ -23,6 +23,10 @@ class Admin_home extends CI_Controller {
 		$output["body_class"] = "";
 
 		$output["web_content"] = "";
+
+		$output["left_active"] = 1;
+		$output["web_leftbar"] = $this->load->view("back/v_leftbar", $output, true);
+
 		$output["web_content"] .= $this->load->view("back/v_header", $output, true);
 		$output["web_content"] .= $this->load->view("back/v_home", $output, true);
 		$output["web_content"] .= $this->load->view("back/v_footer", $output, true);

@@ -10,6 +10,8 @@ function init(){
 	}
 
 	setup_interface();
+
+	set_leftactive();
 }
 
 function setup_interface(){
@@ -23,3 +25,15 @@ function setup_interface(){
 	});
 }
 
+function set_leftactive(){
+
+	var leftactive = $("ul.nav-list").attr("data-active");
+
+	$("ul.nav-list li").eq(leftactive).addClass("active");
+
+	/*$("ul.nav-list li").each(function(){
+		var active = parseInt($(this).attr("data-active"));
+
+		$(this).val(active);
+	});*/
+}
