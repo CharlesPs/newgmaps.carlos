@@ -41,6 +41,32 @@ class Admin_provincias extends CI_Controller {
 
 		$this->load->view('back/v_website', $output);
 	}
+
+	public function edit(){
+
+		$output = $this->set_output();
+
+		$output["body_class"] = "";
+
+		$output["web_content"] = "";
+
+		$output["mod_title"] = "Editar Provincia";
+
+		$output["left_active"] = 2;
+		$output["web_leftbar"] = $this->load->view("back/v_leftbar", $output, true);
+
+		$this->load->model($this->main_model_name, "main_model");
+
+		$entry = $this->uri->segment(4);
+
+		$output["row"] = $this->main_model->get_row($entry);
+
+		$output["web_content"] .= $this->load->view("back/v_header", $output, true);
+		$output["web_content"] .= $this->load->view("back/v_provincias_edit", $output, true);
+		$output["web_content"] .= $this->load->view("back/v_footer", $output, true);
+
+		$this->load->view('back/v_website', $output);
+	}
 }
 
 /* End of file welcome.php */

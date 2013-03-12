@@ -11,7 +11,8 @@ $route['admin/control'] 		= "admin_control";
 $route['admin/control/login'] 	= "admin_control/login";
 $route['admin/control/logout'] 	= "admin_control/logout";
 
-$route['admin/provincias'] 		= "admin_provincias";
+$route['admin/provincias'] 					= "admin_provincias";
+$route['admin/provincias/edit/:num'] 		= "admin_provincias/edit";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

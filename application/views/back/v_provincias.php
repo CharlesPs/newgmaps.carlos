@@ -17,7 +17,7 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="20">#</th>
+                                        <th width="20"><input type="checkbox" class="check-select-all"></th>
                                         <th>Nombre</th>
                                         <th width="80">Color</th>
                                         <th>Acciones</th>
@@ -28,10 +28,17 @@
 foreach($result as $row){
 ?>
                                     <tr>
-                                        <td>1</td>
+                                        <td><input type="checkbox" id="<?php echo $row->entry; ?>"></td>
                                         <td><?php echo $row->nombre; ?></td>
                                         <td><?php echo $row->color; ?></td>
-                                        <td>...</td>
+                                        <td>
+                                            <a href="admin/provincias/edit/<?php echo $row->entry; ?>" class="btn">
+                                                <i class="icon-edit"></i> Editar
+                                            </a>
+                                            <a href="admin/provincias/delete/<?php echo $row->entry; ?>" class="btn btn-danger">
+                                                <i class="icon-trash icon-white"></i> Eliminar
+                                            </a>
+                                        </td>
                                     </tr>
 <?php
 }
