@@ -562,6 +562,142 @@ class Loadxml extends CI_Controller {
 		echo "</pre>";
 	}
 
+	public function ecologico(){
+
+		echo "<style>";
+		echo "body { font-family: verdana; font-size: 12px; }";
+		echo "</style>";
+
+		$tabla_poligonos = "wc_ecologico_poligonos";
+		$tabla_coordenadas = "wc_ecologico_coordenadas";
+		$kml_file = "ecol";
+		$index_campo = 4;
+
+		$kml_data = simplexml_load_file('static/kml/'.$kml_file.'.kml');
+
+		$placemark = $kml_data->Document->Folder;
+
+		echo "<pre>";
+
+		$placemarks = $placemark->Placemark;
+
+		// poligonos
+		echo "\n-- poligonos \ninsert into ".$tabla_poligonos." \n( entry, grupo, tipo, area, hectareas, perimetro ) values \n";
+
+		$idPoligono = 1;
+
+		foreach($placemarks as $placemark){
+
+			if(isset($placemark->MultiGeometry)){
+
+				foreach($placemark->MultiGeometry->Polygon as $polygon){
+
+					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
+					$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
+					$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
+					$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
+					$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
+					$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
+					$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+
+
+						echo "(" .
+							$idPoligono . ", " . 
+							$unk1 . ", " . 
+							$tipoBloque . ", " . 
+							$area . ", " . 
+							$hectareas . ", " . 
+							$perimetro; 
+						echo "),\n";
+
+					$idPoligono += 1;
+				}
+			}else{
+
+				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
+				$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
+				$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
+				$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
+				$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
+				$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
+				$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+
+					echo "(" .
+						$idPolilinea . ", " . 
+						$unk1 . ", " . 
+						$tipoBloque . ", " . 
+						$area . ", " . 
+						$hectareas . ", " . 
+						$perimetro; 
+					echo "),\n";
+
+				$idPolilinea += 1;
+
+			}
+		}
+
+		// coordenadas
+		echo "\n-- coordenadas \ninsert into ".$tabla_coordenadas." \n( idPolilinea, longitude, latitude ) values \n";
+
+		$idPolilinea = 1;
+
+		foreach($placemarks as $placemark){
+
+			if(isset($placemark->MultiGeometry)){
+
+				foreach($placemark->MultiGeometry->Polygon as $polygon){
+
+					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
+					$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
+
+					$coordinates = $polygon->outerBoundaryIs->LinearRing->coordinates;
+
+					$coordenadas = explode(" ", $coordinates);
+
+					foreach($coordenadas as $punto_xy){
+
+						$lat_lng = explode("," , $punto_xy);
+
+						echo "(" . 
+							$idPolilinea . ", " . 
+							//$tipoBloque . ", " . 
+							//$descripcion . "', " . 
+							trim($lat_lng[0]) . ", " . 
+							trim($lat_lng[1]) . "),";
+						echo "\n";
+					}
+
+					$idPolilinea += 1;
+				}
+			}else{
+
+				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
+				$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
+
+				$coordinates = $placemark->Polygon->outerBoundaryIs->LinearRing->coordinates;
+
+				$coordenadas = explode(" ", $coordinates);
+
+				foreach($coordenadas as $punto_xy){
+					
+					$lat_lng = explode("," , $punto_xy);
+
+					echo "(" . 
+						$idPolilinea . ", " . 
+						//$tipoBloque . ", " . 
+						//$descripcion . "', " . 
+						trim($lat_lng[0]) . ", " . 
+						trim($lat_lng[1]) . "),";
+					echo "\n";
+				}
+
+				$idPolilinea += 1;
+			}
+
+		}
+		echo "</pre>";
+	}
+
 }
 
 /* End of file welcome.php */
