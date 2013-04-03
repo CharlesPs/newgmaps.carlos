@@ -15,6 +15,8 @@
                             <li><a href="admin/home">Inicio</a></li>
                             <li><a href="admin/provincias">Provincias</a></li>
                             <li><a href="admin/distritos">Distritos</a></li>
+                            <li><a href="admin/ecologico">Ecológico</a></li>
+                            <li><a href="admin/forestal">Forestal</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->

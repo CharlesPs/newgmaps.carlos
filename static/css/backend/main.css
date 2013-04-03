@@ -1,5 +1,4 @@
 
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -57,6 +56,43 @@ footer {
 
 .sidebar-nav {
 padding: 9px 0;
+}
+.page-header{
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+.color-preview {
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 75px;
+}
+.color-btn {
+    border: 1px solid transparent;
+    border-radius: 3px 3px 3px 3px;
+    color: transparent;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    margin: 2px 5px;
+    overflow: hidden;
+    vertical-align: top;
+    width: 32px;
+}
+#color-picker .color-btn:hover {
+	border-color: #333;
+}
+.preview-color {
+    border: 1px solid transparent;
+    border-radius: 3px 3px 3px 3px;
+    color: transparent;
+    cursor: pointer;
+    display: inline-block;
+    height: 27px;
+    margin: 2px 5px;
+    overflow: hidden;
+    vertical-align: middle;
+    width: 80px;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */

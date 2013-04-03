@@ -62,10 +62,10 @@ class Capas extends CI_Controller {
 		echo $this->comprimir(json_encode($this->m_ecologico->get_poligonos()));
 	}
 
-	public function bosques(){
-		$this->load->model("m_bosques");
+	public function forestal(){
+		$this->load->model("m_forestal");
 
-		echo $this->comprimir(json_encode($this->m_bosques->get_bosques()));
+		echo $this->comprimir(json_encode($this->m_forestal->get_poligonos()));
 	}
 }
 

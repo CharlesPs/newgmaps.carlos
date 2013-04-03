@@ -9,6 +9,54 @@ function init(){
 		});
 	}
 
+	//provincias
+	if($(".content-provincias").length){
+
+		$.getScript(base_url + 'static/js/backend/colors.js', function(){
+			init_colors();
+		})
+		
+		$.getScript(base_url + "static/js/backend/provincias.js", function(){
+			setup_provincias();
+		});
+
+		$.getScript(base_url + 'static/js/backend/preview.js', function(){
+			init_gmaps();
+		})
+	}
+
+	//distritos
+	if($(".content-distritos").length){
+
+		$.getScript(base_url + 'static/js/backend/colors.js', function(){
+			init_colors();
+		})
+		
+		$.getScript(base_url + "static/js/backend/distritos.js", function(){
+			setup_distritos();
+		});
+
+		$.getScript(base_url + 'static/js/backend/preview.js', function(){
+			init_gmaps();
+		})
+	}
+
+	//ecologico
+	if($(".content-ecologico").length){
+
+		$.getScript(base_url + 'static/js/backend/colors.js', function(){
+			init_colors();
+		})
+		
+		$.getScript(base_url + "static/js/backend/ecologico.js", function(){
+			setup_ecologico();
+		});
+
+		$.getScript(base_url + 'static/js/backend/preview.js', function(){
+			init_gmaps();
+		})
+	}
+
 	setup_interface();
 
 	set_leftactive();
@@ -16,6 +64,15 @@ function init(){
 	setup_table_checkbox();
 
 	setup_row_activable();
+}
+
+function bootstrap_alert(mensaje, tipo){
+	var alert_msg = $("<div></div>");
+	alert_msg.addClass("alert alert-" + tipo);
+	alert_msg.append('<button data-dismiss="alert" class="close" type="button">×</button>');
+	alert_msg.append(mensaje);
+
+	$(".alertas").append(alert_msg);
 }
 
 function setup_interface(){
@@ -27,6 +84,14 @@ function setup_interface(){
 		$('.column-hero').toggleClass('span9')
 		$('.column-hero').toggleClass('span11')
 	});
+
+	// 
+	$('#wc-tab a').click(function (e) {
+	    e.preventDefault();
+	    $(this).tab('show');
+    })
+
+	$('#wc-tab a:first').tab('show');
 }
 
 function set_leftactive(){

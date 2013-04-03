@@ -37,7 +37,78 @@ class Loadxml extends CI_Controller {
 		echo $output;
 	}
 
-	public function geologico(){
+	public function ecol_tipo(){
+
+		echo "<style>";
+		echo "body { font-family: verdana; font-size: 12px; }";
+		echo "</style>";
+
+		$tabla_poligonos = "wc_ecologico_poligonos";
+
+		$idTipo = $this->uri->segment(3);
+
+		switch($idTipo){
+			case 1:
+				$kml_file = "ecol-bhdm"; break;
+			case 2:
+				$kml_file = "ecol-bsdc"; break;
+			case 3:
+				$kml_file = "ecol-bsdll"; break; // bad
+			case 4:
+				$kml_file = "ecol-bsmrc"; break;
+			case 5:
+				$kml_file = "ecol-bsmrll"; break; // bad
+			case 6:
+				$kml_file = "ecol-bsmrm"; break;
+			case 7:
+				$kml_file = "ecol-bsrc"; break; // bad
+			case 8:
+				$kml_file = "ecol-bsrll"; break; // bad
+			case 9:
+				$kml_file = "ecol-bsrm"; break; // bad
+			case 10:
+				$kml_file = "ecol-bssdc"; break; // bad
+			case 11:
+				$kml_file = "ecol-bssdll"; break; // bad
+			case 12:
+				$kml_file = "ecol-bssdm"; break; // bad
+		}
+
+		$kml_data = simplexml_load_file('static/kml/'.$kml_file.'.kml');
+
+		$placemark = $kml_data->Document->Folder;
+
+		echo "<pre>";
+
+		$placemarks = $placemark->Placemark;
+
+		// poligonos
+		echo "-- poligonos \n";
+
+		foreach($placemarks as $placemark){
+
+			/*if(isset($placemark->MultiGeometry)){
+
+				foreach($placemark->MultiGeometry->Polygon as $polygon){
+
+					$coordinates = trim($polygon->outerBoundaryIs->LinearRing->coordinates);
+
+					echo "insert into ".$tabla_poligonos." ( idTipo, coordinates ) values ";
+					echo "(" . $idTipo . ", '" .  $coordinates . "'); \n";
+				}
+			}else{*/
+
+				$coordinates = trim($placemark->Polygon->outerBoundaryIs->LinearRing->coordinates);
+
+				echo "insert into ".$tabla_poligonos." ( idTipo, coordinates ) values ";
+				echo "(" . $idTipo . ", '" .  $coordinates . "'); \n";
+			//}
+
+		}
+		echo "</pre>";
+	}
+
+	/*public function ecologico(){
 
 		echo "<style>";
 		echo "body { font-family: verdana; font-size: 12px; }";
@@ -45,7 +116,7 @@ class Loadxml extends CI_Controller {
 
 		$tabla_poligonos = "wc_ecologico_poligonos";
 		$tabla_coordenadas = "wc_ecologico_coordenadas";
-		$kml_file = "map-ecol";
+		$kml_file = "ma/ecol";
 		$index_campo = 4;
 
 		$kml_data = simplexml_load_file('static/kml/'.$kml_file.'.kml');
@@ -57,9 +128,11 @@ class Loadxml extends CI_Controller {
 		$placemarks = $placemark->Placemark;
 
 		// poligonos
-		echo "\n-- poligonos \ninsert into ".$tabla_poligonos." \n( entry, grupo, tipo, area, hectareas, perimetro ) values \n";
+		echo "-- poligonos \n";
 
-		$idPolilinea = 1;
+		$idPoligono = 1;
+
+		$idGrupo = 1;
 
 		foreach($placemarks as $placemark){
 
@@ -67,54 +140,25 @@ class Loadxml extends CI_Controller {
 
 				foreach($placemark->MultiGeometry->Polygon as $polygon){
 
-					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-					$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
-					$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
-					$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
-					$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
-					$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
-					$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+						echo "insert into ".$tabla_poligonos." ( entry ) values ";
+						echo "(" . $idPoligono . ");\n";
 
-
-						echo "(" .
-							$idPolilinea . ", " . 
-							$unk1 . ", " . 
-							$tipoBloque . ", " . 
-							$area . ", " . 
-							$hectareas . ", " . 
-							$perimetro; 
-						echo "),\n";
-
-					$idPolilinea += 1;
+					$idPoligono += 1;
 				}
 			}else{
 
-				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-				$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
-				$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
-				$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
-				$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
-				$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
-				$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+					echo "insert into ".$tabla_poligonos." ( entry ) values ";
+					echo "(" . $idPoligono . ");\n";
 
-					echo "(" .
-						$idPolilinea . ", " . 
-						$unk1 . ", " . 
-						$tipoBloque . ", " . 
-						$area . ", " . 
-						$hectareas . ", " . 
-						$perimetro; 
-					echo "),\n";
-
-				$idPolilinea += 1;
+				$idPoligono += 1;
 
 			}
 		}
 
 		// coordenadas
-		echo "\n-- coordenadas \ninsert into ".$tabla_coordenadas." \n( idPolilinea, longitude, latitude ) values \n";
+		echo "-- coordenadas \n";
 
-		$idPolilinea = 1;
+		$idPoligono = 1;
 
 		foreach($placemarks as $placemark){
 
@@ -122,56 +166,26 @@ class Loadxml extends CI_Controller {
 
 				foreach($placemark->MultiGeometry->Polygon as $polygon){
 
-					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-					$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
+					$coordinates = trim($polygon->outerBoundaryIs->LinearRing->coordinates);
 
-					$coordinates = $polygon->outerBoundaryIs->LinearRing->coordinates;
+					echo "insert into ".$tabla_coordenadas." ( idPoligono, coordinates ) values ";
+					echo "(" . $idPoligono . ", '" .  $coordinates . "'); \n";
 
-					$coordenadas = explode(" ", $coordinates);
-
-					foreach($coordenadas as $punto_xy){
-
-						$lat_lng = explode("," , $punto_xy);
-
-						echo "(" . 
-							$idPolilinea . ", " . 
-							//$tipoBloque . ", " . 
-							//$descripcion . "', " . 
-							trim($lat_lng[0]) . ", " . 
-							trim($lat_lng[1]) . "),";
-						echo "\n";
-					}
-
-					$idPolilinea += 1;
+					$idPoligono += 1;
 				}
 			}else{
 
-				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-				$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
+				$coordinates = trim($placemark->Polygon->outerBoundaryIs->LinearRing->coordinates);
 
-				$coordinates = $placemark->Polygon->outerBoundaryIs->LinearRing->coordinates;
+				echo "insert into ".$tabla_coordenadas." ( idPoligono, coordinates ) values ";
+				echo "(" . $idPoligono . ", '" .  $coordinates . "'); \n";
 
-				$coordenadas = explode(" ", $coordinates);
-
-				foreach($coordenadas as $punto_xy){
-					
-					$lat_lng = explode("," , $punto_xy);
-
-					echo "(" . 
-						$idPolilinea . ", " . 
-						//$tipoBloque . ", " . 
-						//$descripcion . "', " . 
-						trim($lat_lng[0]) . ", " . 
-						trim($lat_lng[1]) . "),";
-					echo "\n";
-				}
-
-				$idPolilinea += 1;
+				$idPoligono += 1;
 			}
 
 		}
 		echo "</pre>";
-	}
+	}*/
 
 	public function distritos(){
 
@@ -562,15 +576,15 @@ class Loadxml extends CI_Controller {
 		echo "</pre>";
 	}
 
-	public function ecologico(){
+	public function forestal(){
 
 		echo "<style>";
 		echo "body { font-family: verdana; font-size: 12px; }";
 		echo "</style>";
 
-		$tabla_poligonos = "wc_ecologico_poligonos";
-		$tabla_coordenadas = "wc_ecologico_coordenadas";
-		$kml_file = "ecol";
+		$tabla_poligonos = "wc_forestal_poligonos";
+		$tabla_coordenadas = "wc_forestal_coordenadas";
+		$kml_file = "ma/fores";
 		$index_campo = 4;
 
 		$kml_data = simplexml_load_file('static/kml/'.$kml_file.'.kml');
@@ -582,7 +596,35 @@ class Loadxml extends CI_Controller {
 		$placemarks = $placemark->Placemark;
 
 		// poligonos
-		echo "\n-- poligonos \ninsert into ".$tabla_poligonos." \n( entry, grupo, tipo, area, hectareas, perimetro ) values \n";
+		echo "-- poligonos \n";
+
+		$idPoligono = 1;
+
+		$idGrupo = 1;
+
+		foreach($placemarks as $placemark){
+
+			if(isset($placemark->MultiGeometry)){
+
+				foreach($placemark->MultiGeometry->Polygon as $polygon){
+
+						echo "insert into ".$tabla_poligonos." ( entry ) values ";
+						echo "(" . $idPoligono . ");\n";
+
+					$idPoligono += 1;
+				}
+			}else{
+
+					echo "insert into ".$tabla_poligonos." ( entry ) values ";
+					echo "(" . $idPoligono . ");\n";
+
+				$idPoligono += 1;
+
+			}
+		}
+
+		// coordenadas
+		echo "-- coordenadas \n";
 
 		$idPoligono = 1;
 
@@ -592,106 +634,21 @@ class Loadxml extends CI_Controller {
 
 				foreach($placemark->MultiGeometry->Polygon as $polygon){
 
-					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-					$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
-					$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
-					$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
-					$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
-					$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
-					$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+					$coordinates = trim($polygon->outerBoundaryIs->LinearRing->coordinates);
 
-
-						echo "(" .
-							$idPoligono . ", " . 
-							$unk1 . ", " . 
-							$tipoBloque . ", " . 
-							$area . ", " . 
-							$hectareas . ", " . 
-							$perimetro; 
-						echo "),\n";
+					echo "insert into ".$tabla_coordenadas." ( idPoligono, coordinates ) values ";
+					echo "(" . $idPoligono . ", '" .  $coordinates . "'); \n";
 
 					$idPoligono += 1;
 				}
 			}else{
 
-				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-				$area = $placemark->ExtendedData->SchemaData->SimpleData[0];
-				$perimetro = $placemark->ExtendedData->SchemaData->SimpleData[1];
-				$unk1 = $placemark->ExtendedData->SchemaData->SimpleData[2];
-				$unk2 = $placemark->ExtendedData->SchemaData->SimpleData[3];
-				$descripcion = $placemark->ExtendedData->SchemaData->SimpleData[5];
-				$hectareas = $placemark->ExtendedData->SchemaData->SimpleData[6];
+				$coordinates = trim($placemark->Polygon->outerBoundaryIs->LinearRing->coordinates);
 
-					echo "(" .
-						$idPolilinea . ", " . 
-						$unk1 . ", " . 
-						$tipoBloque . ", " . 
-						$area . ", " . 
-						$hectareas . ", " . 
-						$perimetro; 
-					echo "),\n";
+				echo "insert into ".$tabla_coordenadas." ( idPoligono, coordinates ) values ";
+				echo "(" . $idPoligono . ", '" .  $coordinates . "'); \n";
 
-				$idPolilinea += 1;
-
-			}
-		}
-
-		// coordenadas
-		echo "\n-- coordenadas \ninsert into ".$tabla_coordenadas." \n( idPolilinea, longitude, latitude ) values \n";
-
-		$idPolilinea = 1;
-
-		foreach($placemarks as $placemark){
-
-			if(isset($placemark->MultiGeometry)){
-
-				foreach($placemark->MultiGeometry->Polygon as $polygon){
-
-					$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-					$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
-
-					$coordinates = $polygon->outerBoundaryIs->LinearRing->coordinates;
-
-					$coordenadas = explode(" ", $coordinates);
-
-					foreach($coordenadas as $punto_xy){
-
-						$lat_lng = explode("," , $punto_xy);
-
-						echo "(" . 
-							$idPolilinea . ", " . 
-							//$tipoBloque . ", " . 
-							//$descripcion . "', " . 
-							trim($lat_lng[0]) . ", " . 
-							trim($lat_lng[1]) . "),";
-						echo "\n";
-					}
-
-					$idPolilinea += 1;
-				}
-			}else{
-
-				$tipoBloque = $placemark->ExtendedData->SchemaData->SimpleData[$index_campo];
-				$grupo = $placemark->ExtendedData->SchemaData->SimpleData[2];
-
-				$coordinates = $placemark->Polygon->outerBoundaryIs->LinearRing->coordinates;
-
-				$coordenadas = explode(" ", $coordinates);
-
-				foreach($coordenadas as $punto_xy){
-					
-					$lat_lng = explode("," , $punto_xy);
-
-					echo "(" . 
-						$idPolilinea . ", " . 
-						//$tipoBloque . ", " . 
-						//$descripcion . "', " . 
-						trim($lat_lng[0]) . ", " . 
-						trim($lat_lng[1]) . "),";
-					echo "\n";
-				}
-
-				$idPolilinea += 1;
+				$idPoligono += 1;
 			}
 
 		}

@@ -30,14 +30,16 @@
                                 <tbody>
 <?php
 foreach($result as $row){
+
+    $color = strlen($row->color) == 6 ? "#". $row->color : $row->color;
 ?>
                                     <tr>
                                         <td><input type="checkbox" id="<?php echo $row->entry; ?>"></td>
                                         <td><?php echo $row->nombre; ?></td>
-                                        <td><?php echo $row->color; ?></td>
+                                        <td><span class="color-preview" style="background-color: <?php echo $color; ?>">&nbsp;</span></td>
                                         <td>
-                                            <a href="admin/provincias/edit/<?php echo $row->entry; ?>" class="btn">
-                                                <i class="icon-edit"></i> Editar
+                                            <a href="admin/provincias/view/<?php echo $row->entry; ?>" class="btn">
+                                                <i class="icon-eye-open"></i> Ver
                                             </a>
                                             <a href="admin/provincias/delete/<?php echo $row->entry; ?>" class="btn btn-danger">
                                                 <i class="icon-trash icon-white"></i> Eliminar

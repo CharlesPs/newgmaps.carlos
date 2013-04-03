@@ -17,8 +17,7 @@
             <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
             <script>window.html5 || document.write('<script src="static/js/vendor/html5shiv.js"><\/script>')</script>
         <![endif]-->
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false">
-        </script>    
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>    
     </head>
     <body>
         <!--[if lt IE 7]>

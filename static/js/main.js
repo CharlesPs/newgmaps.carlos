@@ -22,7 +22,7 @@ var distritos_array = [];
 var hidrografia_array = [];
 var vias_array = [];
 var ecologico_array = [];
-var bosques_01_array = [];
+var forestal_array = [];
 
 var loading_active = false;
 
@@ -46,6 +46,9 @@ var capa_vias;
 
 var showing_ecologico = false;
 var capa_ecologico;
+
+var showing_forestal = false;
+var capa_forestal;
 
 // INIT
 
@@ -87,14 +90,14 @@ function initialize(){
 	}
   }, mapa);
 
-var minimapa = new addControl({
-	id: "minimapa",
-	content: '<img src="static/img/minimapa.png" width="172" height="232" />',
-	title: "Mini Mapa",
-	position: "left_bottom",
-	clases: "minimapa",
-	on_click: function() {}
-}, mapa);
+	var minimapa = new addControl({
+		id: "minimapa",
+		content: '<img src="static/img/minimapa.png" width="172" height="232" />',
+		title: "Mini Mapa",
+		position: "left_bottom",
+		clases: "minimapa",
+		on_click: function() {}
+	}, mapa);
 
 	var info_panel = new addControl({
 		id: "info_panel",
@@ -113,6 +116,7 @@ var minimapa = new addControl({
 	// Menu Capas
 	var lista_combo_capas = $('<div id="lista_combo_capas" class="lista_combo lista_combo_capas"></div>');
 	lista_combo_capas.append($('<ul></ul>'));
+	lista_combo_capas.find("ul").append($('<li class="capa_forestal">Mapa Forestal</li>'));
 	lista_combo_capas.find("ul").append($('<li class="capa_mapa_ecologico">Mapa Ecológico</li>'));
 	lista_combo_capas.find("ul").append($('<li class="capa_comunidades">Comunidades</li>'));
 	lista_combo_capas.find("ul").append($('<li class="capa_hidrografia">Hidrografia</li>'));
@@ -135,12 +139,19 @@ var minimapa = new addControl({
 					lista_combo_capas_created = true;
 
 					// setup menu mostrar por
-					$("#combo-capas .capa_mapa_forestal").on("click", function(){
-						
+					$("#combo-capas .capa_forestal").on("click", function(){
 						// oculta todos los submenus
 						$(".submenu").hide();
 
-						$("#combo-mostrar-por").show();
+						if(forestal_array.length){
+							if(showing_forestal){
+								forestal_hide();
+							}else{
+								forestal_show();
+							}
+						}else{
+							forestal_load();
+						}
 					});
 
 					$("#combo-capas .capa_comunidades").on("click", function(){
@@ -693,7 +704,7 @@ function ecologico_load(){
 				
 				$.each(puntos, function(index2, value2){
 
-					var coordenadas = new google.maps.LatLng(value2.latitude, value2.longitude);
+					var coordenadas = new google.maps.LatLng(value2[1], value2[0]);
 
 					poligono_coords.push(coordenadas);
 				});
@@ -708,14 +719,14 @@ function ecologico_load(){
 				});
 
 				// Add a listener for the click event
-				google.maps.event.addListener(poligono, 'click', function(){
+				/*google.maps.event.addListener(poligono, 'click', function(){
 
 					var data = {
 						nombre : ret[index].nombre,
 						content : ret[index].content
 					};
 					show_info_panel(data);
-				});
+				});*/
 
 				ecologico_array.push(poligono);
 			});
@@ -746,4 +757,81 @@ function ecologico_hide(){
 	}
 	bottom_btn_delete("ecologico");
 	showing_ecologico = false;
+}
+
+/*
+Ecologico
+*/
+
+function forestal_load(){
+
+	//loading_active = true;
+	$(".loading-image").fadeIn();
+
+	$.ajax({
+		url : 'capas/forestal',
+		dataType : 'json',
+		error : function(){},
+		success : function(ret){
+			$.each(ret, function(index, value){
+
+				var poligono_coords = [];
+
+				var puntos = ret[index].points;
+				
+				$.each(puntos, function(index2, value2){
+
+					var coordenadas = new google.maps.LatLng(value2[1], value2[0]);
+
+					poligono_coords.push(coordenadas);
+				});
+				
+				var poligono = new google.maps.Polygon({
+					paths: poligono_coords,
+					strokeColor: ret[index].color,
+					strokeOpacity: 1,
+					strokeWeight: 2,
+					fillColor: ret[index].color,
+					fillOpacity: 0.2
+				});
+
+				// Add a listener for the click event
+				/*google.maps.event.addListener(poligono, 'click', function(){
+
+					var data = {
+						nombre : ret[index].nombre,
+						content : ret[index].content
+					};
+					show_info_panel(data);
+				});*/
+
+				forestal_array.push(poligono);
+			});
+
+			forestal_show();
+			$(".loading-image").fadeOut();
+		}
+	});
+}
+
+function forestal_show(){
+	if (forestal_array) {
+		for (i in forestal_array) {
+			forestal_array[i].setMap(mapa);
+		}
+	}
+	bottom_btn_create("forestal", "Mapa Forestal", function(){
+		forestal_hide();
+	});
+	showing_forestal = true;
+}
+
+function forestal_hide(){
+	if (forestal_array) {
+		for (i in forestal_array) {
+			forestal_array[i].setMap(null);
+		}
+	}
+	bottom_btn_delete("forestal");
+	showing_forestal = false;
 }
