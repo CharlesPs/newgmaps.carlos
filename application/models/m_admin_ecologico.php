@@ -5,17 +5,13 @@ class M_admin_ecologico extends CI_Model {
     function __construct(){
         parent::__construct();
 
-        $this->main_table = "wc_ecologico_poligonos";
-        $this->join_table = "wc_ecologico_tipos";
-        $this->coord_table = "wc_ecologico_coordenadas";
+        $this->main_table = "wc_ecologico";
+        $this->coord_table = "wc_ecologico_poligonos";
     }
 
     function get_result($offset = 0){
-        $query = $this->db->select("*, ".$this->main_table.".entry as entry")
+        $query = $this->db->select("*")
                             ->from($this->main_table)
-                            ->join($this->join_table, 
-                                $this->main_table.".tipo = ".$this->join_table. ".entry", 
-                                "left")
                             ->limit(20, $offset)
                             ->get();
 
@@ -23,14 +19,9 @@ class M_admin_ecologico extends CI_Model {
     }
 
     function get_row($entry){
-        $query = $this->db->select("*, 
-                                    ".$this->main_table.".entry as entry,
-                                    ".$this->join_table.".color as color")
+        $query = $this->db->select("*")
                             ->from($this->main_table)
-                            ->join($this->join_table, 
-                                $this->main_table.".tipo = ".$this->join_table. ".entry", 
-                                "left")
-                            ->where($this->main_table.".entry", $entry)
+                            ->where("entry", $entry)
                             ->get();
 
         return $query->row();
@@ -76,28 +67,32 @@ class M_admin_ecologico extends CI_Model {
 
     */
 
-    function get_coordenadas($idPoligono){
+    function get_coordenadas($idTipo){
         $query = $this->db->select("coordinates")
                             ->from($this->coord_table)
-                            ->where("idPoligono", $idPoligono)
+                            ->where("idTipo", $idTipo)
                             ->get();
 
-        $row = $query->row();
+        $result = $query->result();
 
-        $resultados = array();
+        $poligonos = array();
 
-        $coord_rows = explode(" ", $row->coordinates);
+        foreach($result as $row){
 
-        foreach($coord_rows as $coord_row){
-            $lat_lng = explode(",", $coord_row);
-            $resultados[] = array(trim($lat_lng[1]), trim($lat_lng[0]));
+            $poligono = array();
+
+            $coord_rows = explode(" ", $row->coordinates);
+
+            foreach($coord_rows as $coord_row){
+                $lat_lng = explode(",", $coord_row);
+                $poligono[] = array(trim($lat_lng[1]), trim($lat_lng[0]));
+            }
+
+            $poligonos[] = $poligono;
+
         }
 
-        /*foreach($result as $row){
-            $resultados[] = array($row->latitude, $row->longitude);
-        }*/
-
-        return $resultados;
+        return $poligonos;
 
     }
 

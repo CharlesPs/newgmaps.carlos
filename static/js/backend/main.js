@@ -52,7 +52,7 @@ function init(){
 			setup_ecologico();
 		});
 
-		$.getScript(base_url + 'static/js/backend/preview.js', function(){
+		$.getScript(base_url + 'static/js/backend/multi-preview.js', function(){
 			init_gmaps();
 		})
 	}

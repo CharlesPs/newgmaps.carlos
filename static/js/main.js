@@ -788,10 +788,10 @@ function forestal_load(){
 				
 				var poligono = new google.maps.Polygon({
 					paths: poligono_coords,
-					strokeColor: ret[index].color,
+					strokeColor: /*ret[index].color*/'#00FF00',
 					strokeOpacity: 1,
 					strokeWeight: 2,
-					fillColor: ret[index].color,
+					fillColor: /*ret[index].color*/'#00FF00',
 					fillOpacity: 0.2
 				});
 

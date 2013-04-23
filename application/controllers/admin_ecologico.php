@@ -65,7 +65,7 @@ class Admin_ecologico extends CI_Controller {
 
 		$output["web_content"] = "";
 
-		$output["mod_title"] = "Ver Provincia";
+		$output["mod_title"] = "Ver Tipo de Bosque";
 
 		$output["left_active"] = 4;
 		$output["web_leftbar"] = $this->load->view("back/v_leftbar", $output, true);

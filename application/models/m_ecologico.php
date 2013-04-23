@@ -8,9 +8,9 @@ class M_ecologico extends CI_Model {
 
     function get_poligonos(){
         $query = $this->db->select("*")
-                            ->from("wc_ecologico_poligonos")
-                            ->join("wc_ecologico_coordenadas", 
-                                "wc_ecologico_poligonos.entry = wc_ecologico_coordenadas.idPoligono", 
+                            ->from("old_wc_ecologico_poligonos")
+                            ->join("old_wc_ecologico_coordenadas", 
+                                "old_wc_ecologico_poligonos.entry = old_wc_ecologico_coordenadas.idPoligono", 
                                 "left")
                             ->get();
 
@@ -22,7 +22,7 @@ class M_ecologico extends CI_Model {
 
             $resultados[] = array(
                 "entry" => $row->entry,
-                "color" => $row->color,
+                "color" => $row->colorx,
                 "points" => $this->get_coordenadas($row->coordinates)
             );
         }
