@@ -21,6 +21,11 @@ class Home extends CI_Controller {
 	{
 		$this->load->view('front/v_website');
 	}
+
+	public function php_info()
+	{
+		phpinfo();
+	}
 }
 
 /* End of file welcome.php */
